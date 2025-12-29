@@ -117,6 +117,10 @@ def main(pbi, threads, output_bam, model, chunk, min_length, max_length, min_rq,
     lb_model = bam_utils.load_model(model, input_bam)
     logger.info(f"Using {lb_model.name}: {lb_model.description}")
 
+    # 临时禁用多进程，使用单进程模式进行测试
+    threads = 1
+    logger.info(f"测试模式: 使用单进程 (threads=1)")
+
     pbi = f"{input_bam.name}.pbi" if pbi is None else pbi
     read_count = None
     read_num = 0

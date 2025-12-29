@@ -10,9 +10,9 @@ import networkx as nx
 
 import matplotlib.pyplot as plt
 
-from ..utils.model import LibraryModel
-from ..utils.model import MODEL_NAME_REGEX
-from ..utils.model_utils import ModelBuilder
+from ..utils.model_dynamax import LibraryModel
+from ..utils.model_dynamax import MODEL_NAME_REGEX
+from ..utils.model_utils_dynamax import ModelBuilder
 
 
 from ..utils import cli_utils

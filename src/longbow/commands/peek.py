@@ -16,8 +16,8 @@ import multiprocessing as mp
 
 import longbow.utils.constants
 from ..utils import bam_utils
-from ..utils.model import LibraryModel
-from ..utils.model_utils import ModelBuilder
+from ..utils.model_dynamax import LibraryModel
+from ..utils.model_utils_dynamax import ModelBuilder
 from ..utils.cli_utils import zero_safe_div
 
 

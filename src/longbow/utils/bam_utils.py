@@ -24,7 +24,7 @@ from .constants import RANDOM_SEGMENT_NAME, HPR_SEGMENT_TYPE_NAME, SEGMENTS_TAG,
     SEGMENTS_RC_TAG, SEGMENT_TAG_DELIMITER, READ_MODEL_NAME_TAG, READ_MODEL_SCORE_TAG, READ_APPROX_QUAL_TAG, \
     READ_RAW_UMI_TAG, READ_RAW_BARCODE_TAG, CONF_FACTOR_SCALE, SEGMENT_POS_DELIMITER
 
-from ..utils.model import LibraryModel
+from ..utils.model_dynamax import LibraryModel
 
 logging.basicConfig(stream=sys.stderr)
 logger = logging.getLogger("bam_utils")
