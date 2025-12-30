@@ -59,15 +59,26 @@ class LibraryModel:
         self.model = None
         self.params = None
 
-    def build(self, states, initial_probs, trans_matrix, emissions_matrix):
+    def build(self, states=None, initial_probs=None, trans_matrix=None, emissions_matrix=None):
         """Build the HMM model with the given parameters.
 
         Args:
-            states: List of state names (must match self.states)
-            initial_probs: Initial state probability distribution, shape (n_states,)
-            trans_matrix: Transition matrix, shape (n_states, n_states)
-            emissions_matrix: Emission probability matrix, shape (n_states, n_emissions)
+            states: List of state names (must match self.states). Optional.
+            initial_probs: Initial state probability distribution, shape (n_states,). Optional.
+            trans_matrix: Transition matrix, shape (n_states, n_states). Optional.
+            emissions_matrix: Emission probability matrix, shape (n_states, n_emissions). Optional.
         """
+        # If no parameters provided but model exists, rebuild from stored parameters
+        if states is None and initial_probs is None and trans_matrix is None and emissions_matrix is None:
+            if self.params is None:
+                raise RuntimeError("Model has not been built yet. Cannot rebuild without parameters.")
+            # Rebuild from stored parameters
+            dict_params = self.to_dict()
+            states = dict_params.get('state_names', self.states)
+            initial_probs = jnp.array(dict_params['initial_probs'])
+            trans_matrix = jnp.array(dict_params['trans_matrix'])
+            emissions_matrix = jnp.array(dict_params['emissions_matrix'])
+        
         # Validate inputs
         if len(states) != self.n_states:
             raise ValueError(f"Number of states mismatch: expected {self.n_states}, got {len(states)}")
@@ -117,8 +128,8 @@ class LibraryModel:
         where consecutive states with the same operation are merged into CIGAR format.
 
         Args:
-            seq: Sequence of emissions (integers representing categories).
-                 For DNA/RNA, typically: A=0, C=1, G=2, T=3 (or similar mapping)
+            seq: Sequence of emissions (string or integers representing categories).
+                 For DNA/RNA, typically accepts string like 'ACGT...' or integers [0, 1, 2, 3]
 
         Returns:
             tuple: (log_prob, list of path segments in CIGAR format)
@@ -127,8 +138,13 @@ class LibraryModel:
         if self.model is None or self.params is None:
             raise RuntimeError("Model has not been built. Call build() first.")
 
+        # Convert string sequence to integer array
+        if isinstance(seq, str):
+            # Map nucleotide characters to integers
+            seq = self._seq_to_int_array(seq)
+
         # Convert sequence to JAX array and ensure correct shape
-        if isinstance(seq, (list, tuple)):
+        elif isinstance(seq, (list, tuple)):
             seq = jnp.array(seq)
 
         # Ensure sequence is 1D integer array
@@ -224,6 +240,23 @@ class LibraryModel:
             ppath.append(f'{cur_adapter_name}:{"".join(cigar)}')
         
         return ppath
+
+    def _seq_to_int_array(self, seq):
+        """Convert a nucleotide sequence string to an integer array.
+        
+        Args:
+            seq: DNA/RNA sequence string (A, C, G, T, N)
+            
+        Returns:
+            JAX integer array of shape (seq_length,)
+        """
+        # Map nucleotides to integers
+        nuc_to_int = {'A': 0, 'C': 1, 'G': 2, 'T': 3, 'N': 4}
+        
+        seq_upper = seq.upper()
+        int_array = [nuc_to_int.get(base, 4) for base in seq_upper]  # Default to 4 (N) for unknown bases
+        
+        return jnp.array(int_array, dtype=jnp.int32)
 
     def annotate_with_log_prob(self, seq):
         """Annotate the given sequence and return states with log probability.
@@ -381,6 +414,15 @@ class LibraryModel:
             bool: True if model is built, False otherwise
         """
         return self.model is not None and self.params is not None
+
+    @property
+    def has_named_random_segments(self):
+        """Check if the model has named random segments.
+
+        Returns:
+            bool: True if model has named_random_segments and it's non-empty
+        """
+        return hasattr(self, 'named_random_segments') and len(self.named_random_segments) > 0
 
     # =========================================================================
     # Methods for compatibility with pomegranate version (bam_utils.load_model)
