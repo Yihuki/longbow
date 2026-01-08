@@ -109,7 +109,7 @@ def main(pbi, output_bam, reject_bam, model, force, stats, summary_stats, ignore
     reads_to_ignore = set()
     if ignore_list and os.path.exists(ignore_list):
         logger.info(f"Ingesting read ignore list: {ignore_list}")
-        with open(ignore_list, 'r') as f:
+        with open(ignore_list) as f:
             for line in f:
                 read_name = line.strip()
                 if len(read_name) > 0:

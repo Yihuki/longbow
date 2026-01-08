@@ -251,8 +251,8 @@ def main(pbi, threads, output_model, chunk, num_reads, min_length, max_length, m
 
 
 def plot_model_counts(res, models, max_width=50.0):
-    big_block_char = u"\u2588"
-    small_block_char = u"\u258F"
+    big_block_char = "\u2588"
+    small_block_char = "\u258F"
 
     model_tot = np.sum(list(res.values()))
     max_label_width = np.max(list(map(lambda x: len(x), models.keys())))

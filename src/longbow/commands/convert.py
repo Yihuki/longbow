@@ -129,10 +129,10 @@ def _get_files(user_input):
     if os.path.isdir(user_input):
         for root, dirs, files in os.walk(user_input):
             for file in files:
-                if file.endswith(".fastq.gz") or file.endswith(".fq.gz"):
+                if file.endswith((".fastq.gz", ".fq.gz")):
                     inputs.append(os.path.join(root, file))
     elif os.path.isfile(user_input):
-        if user_input.endswith(".fastq.gz") or user_input.endswith(".fq.gz"):
+        if user_input.endswith((".fastq.gz", ".fq.gz")):
             inputs.append(user_input)
 
     return inputs

@@ -659,7 +659,7 @@ def create_simple_split_array_element(delim_name, end_coord, model, prev_delim_n
     # Set our segments tag to only include the segments in this read:
     a.set_tag(
         longbow.utils.constants.SEGMENTS_TAG,
-        longbow.utils.constants.SEGMENT_TAG_DELIMITER.join(([s.to_tag() for s in out_segment_ranges])),
+        longbow.utils.constants.SEGMENT_TAG_DELIMITER.join([s.to_tag() for s in out_segment_ranges]),
     )
 
     a.set_tag(

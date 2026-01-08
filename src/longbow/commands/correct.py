@@ -521,7 +521,7 @@ def _perform_barcode_multi_match(barcode_length, bc_allow_list, dist_threshold, 
     # OK, we have to do multiple matches to try to find the barcode here:
     success_dict = dict()
     failure_counts = defaultdict(int)
-    for i in range(0, len(old_bc) - barcode_length + 1):
+    for i in range(len(old_bc) - barcode_length + 1):
         bc_sub_string = old_bc[i:i + barcode_length]
 
         new_bc, edit_dist, result_status = \
@@ -608,7 +608,7 @@ def _generate_barcode_freqs_from_allow_list(barcode_allow_list):
 
 
 def _filter_barcode_freqs_by_allow_list(barcode_freqs, barcode_allow_list):
-    with open(barcode_freqs, 'r') as f:
+    with open(barcode_freqs) as f:
         with tempfile.NamedTemporaryFile('w', prefix="tmp_barcode_freqs_filtered_to_allow_list",
                                          suffix=".tsv", dir=os.getcwd(), delete=False) as out_file:
             fname = out_file.name

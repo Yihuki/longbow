@@ -398,11 +398,11 @@ def _write_summary_stats_file(input_bam,
                            "CHECK YOUR INPUTS!).")
             f.write("\n")
             f.write("#" + ("=" * 80) + "\n")
-            f.write("""#                 __        ___    ____  _   _ ___ _   _  ____\n""")
-            f.write("""#                 \ \      / / \  |  _ \| \ | |_ _| \ | |/ ___|\n""")
-            f.write("""#                  \ \ /\ / / _ \ | |_) |  \| || ||  \| | |  _\n""")
-            f.write("""#                   \ V  V / ___ \|  _ <| |\  || || |\  | |_| |\n""")
-            f.write("""#                    \_/\_/_/   \_\_| \_\_| \_|___|_| \_|\____|\n""")
+            f.write(r"""#                 __        ___    ____  _   _ ___ _   _  ____\n""")
+            f.write(r"""#                 \ \      / / \  |  _ \| \ | |_ _| \ | |/ ___|\n""")
+            f.write(r"""#                  \ \ /\ / / _ \ | |_) |  \| || ||  \| | |  _\n""")
+            f.write(r"""#                   \ V  V / ___ \|  _ <| |\  || || |\  | |_| |\n""")
+            f.write(r"""#                    \_/\_/_/   \_\_| \_\_| \_|___|_| \_|\____|\n""")
             f.write("#\n")
             f.write("WARNING:                  No array elements were found.\n")
             f.write("WARNING:        Either something went horribly wrong in library prep\n")
@@ -418,11 +418,11 @@ def _write_summary_stats_file(input_bam,
                            "running `longbow stats` (and the latter is more likely - CHECK YOUR INPUTS!).")
             f.write("\n")
             f.write("#" + ("=" * 80) + "\n")
-            f.write("""#                 __        ___    ____  _   _ ___ _   _  ____\n""")
-            f.write("""#                 \ \      / / \  |  _ \| \ | |_ _| \ | |/ ___|\n""")
-            f.write("""#                  \ \ /\ / / _ \ | |_) |  \| || ||  \| | |  _\n""")
-            f.write("""#                   \ V  V / ___ \|  _ <| |\  || || |\  | |_| |\n""")
-            f.write("""#                    \_/\_/_/   \_\_| \_\_| \_|___|_| \_|\____|\n""")
+            f.write(r"""#                 __        ___    ____  _   _ ___ _   _  ____\n""")
+            f.write(r"""#                 \ \      / / \  |  _ \| \ | |_ _| \ | |/ ___|\n""")
+            f.write(r"""#                  \ \ /\ / / _ \ | |_) |  \| || ||  \| | |  _\n""")
+            f.write(r"""#                   \ V  V / ___ \|  _ <| |\  || || |\  | |_| |\n""")
+            f.write(r"""#                    \_/\_/_/   \_\_| \_\_| \_|___|_| \_|\____|\n""")
             f.write("#\n")
             f.write("WARNING:   The number of array elements found was the same as the number of\n")
             f.write("WARNING:                        array reads processed.\n")
@@ -555,8 +555,8 @@ def _write_heat_matrix(f, heat_matrix):
 
     max_length = _get_num_digits_for_heat_matrix(heat_matrix)
 
-    for i in range(0, heat_matrix.shape[0]):
-        for j in range(0, heat_matrix.shape[1]):
+    for i in range(heat_matrix.shape[0]):
+        for j in range(heat_matrix.shape[1]):
             f.write(f"{heat_matrix[i, j]:{max_length}d} ")
         f.write("\n")
     f.write("\n")

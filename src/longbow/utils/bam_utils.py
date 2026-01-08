@@ -136,7 +136,7 @@ def compute_shard_offsets(pbi_file, num_shards):
     with gzip.open(pbi_file, "rb") as f:
         idx_contents = fmt.parse_stream(f)
 
-        for j in range(0, idx_contents.n_reads):
+        for j in range(idx_contents.n_reads):
             # Save only the virtual file offset for the first ZMW hole number, so
             # that shard boundaries always keep reads from the same ZMW together.
             if idx_contents.holeNumber[j] not in file_offsets_hash:

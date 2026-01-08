@@ -194,7 +194,7 @@ def load_read_names(read_name_args):
 
     for r in read_name_args:
         if os.path.exists(r):
-            with open(r, "r") as f:
+            with open(r) as f:
                 for i, line in enumerate(f):
                     # Space / Tab / Newline / Line feed are all forbidden in read names by the sam spec, so we can
                     # trim it all off:
@@ -263,7 +263,7 @@ def load_read_offsets(pbi_file, read_names):
     with gzip.open(pbi_file, "rb") as f:
         idx_contents = fmt.parse_stream(f)
 
-        for j in range(0, idx_contents.n_reads):
+        for j in range(idx_contents.n_reads):
             key1 = f"{idx_contents.holeNumber[j]}_{idx_contents.qEnd[j]}"
             key2 = f"{idx_contents.holeNumber[j]}_-1"
 

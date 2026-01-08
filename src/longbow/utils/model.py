@@ -232,7 +232,6 @@ class LibraryModel:
                 logger.warning(f"{model_type} Model {m.name} is deprecated.")
         except KeyError:
             logger.warning(f"{model_type} Model is missing the 'deprecated' field.")
-            pass
 
     def build(self):
 
@@ -417,7 +416,7 @@ class LibraryModel:
         # Create connections:
         # For "soft" adapters (where sequence is unknown), just connect to the next thing
         # "hard" adapters transitions are defined elsewhere
-        for i in range(0, len(self.cdna_model['structure'])-1):
+        for i in range(len(self.cdna_model['structure'])-1):
             adapter_name_i = self.cdna_model['structure'][i]
             adapter_name_j = self.cdna_model['structure'][i+1]
 
